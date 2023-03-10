@@ -13,8 +13,7 @@ public class Employee
     String designation;
     double salary;
 
-    public Employee(long id, String name, String designation, double salary) {
-        this.id = id;
+    public Employee(String name, String designation, double salary) {
         this.name = name;
         this.designation = designation;
         this.salary = salary;

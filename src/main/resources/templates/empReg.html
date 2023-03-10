@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<h1 th:text="${msg}">  </h1>
+
+<!--<form method="post" action="/emps/" th:object="${Employee}">-->
+<form method="post" action="/emps/">
+    <input type="text" name="name" placeholder="Enter Name"> <br>
+    <input type="text" name="designation" placeholder="Enter Designation"> <br>
+    <input type="number" name="salary" placeholder="Enter Salary"> <br>
+    <input type="reset" value="CLEAR">
+    <input type="submit" value="REGISTER">
+</form>
+
+<table border="1">
+    <tr>
+        <th> ID </th>
+        <th> NAME </th>
+        <th> DESIGNATION </th>
+        <th> SALARY </th>
+        <td></td>
+    </tr>
+    <tr th:each="emp : ${empList}">
+        <td th:text="${emp.id}"> </td>
+        <td th:text="${emp.name}"> </td>
+        <td th:text="${emp.designation}"> </td>
+        <td th:text="${emp.salary}"> </td>
+        <td><a th:href="@{/emps/delete/{empID}/(empID = ${emp.id})}"> Delete </a></td>
+    </tr>
+</table>
+
+</body>
+</html>
