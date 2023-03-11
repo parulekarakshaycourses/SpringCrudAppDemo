@@ -1,38 +1,60 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <title>EmploeeMS</title>
+    <link rel="stylesheet" href="/assets/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/assets/fonts/font-awesome.min.css">
+    <link rel="stylesheet" href="/assets/css/Contact-Form-Clean.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
+    <link rel="stylesheet" href="/assets/css/styles.css">
 </head>
+
 <body>
+    <section class="contact-clean">
+        <form method="post" action="/emp/save/" th:object="${Employee}">
+            <h2 class="text-center">Employee Registration Form</h2>
+            <div class="mb-3"><input class="form-control" type="text" name="name" placeholder="Enter Name" required=""></div>
+            <div class="mb-3"><input class="form-control" type="text" name="designation" placeholder="Enter Designation" required=""></div>
+            <div class="mb-3"><input class="form-control" type="text" name="salary" placeholder="Enter Salary" required="" inputmode="numeric"></div>
+            <div class="text-center mb-3"><button class="btn btn-secondary" type="submit" style="background: var(--bs-blue);margin: 5px;">Register</button><button class="btn btn-secondary" type="reset" style="background: var(--bs-gray-500);margin: 5px;">CLEAR</button></div>
 
-<h1 th:text="${msg}">  </h1>
 
-<!--<form method="post" action="/emps/" th:object="${Employee}">-->
-<form method="post" action="/emps/">
-    <input type="text" name="name" placeholder="Enter Name"> <br>
-    <input type="text" name="designation" placeholder="Enter Designation"> <br>
-    <input type="number" name="salary" placeholder="Enter Salary"> <br>
-    <input type="reset" value="CLEAR">
-    <input type="submit" value="REGISTER">
-</form>
-
-<table border="1">
-    <tr>
-        <th> ID </th>
-        <th> NAME </th>
-        <th> DESIGNATION </th>
-        <th> SALARY </th>
-        <td></td>
-    </tr>
-    <tr th:each="emp : ${empList}">
-        <td th:text="${emp.id}"> </td>
-        <td th:text="${emp.name}"> </td>
-        <td th:text="${emp.designation}"> </td>
-        <td th:text="${emp.salary}"> </td>
-        <td><a th:href="@{/emps/delete/{empID}/(empID = ${emp.id})}"> Delete </a></td>
-    </tr>
-</table>
-
+            <div class="table-responsive" style="width: 100%;">
+                <table class="table">
+                    <thead>
+                        <tr style="background: var(--bs-blue);color: var(--bs-white);">
+                            <th class="text-center">ID</th>
+                            <th class="text-center">Name</th>
+                            <th class="text-center">Designation</th>
+                            <th class="text-center">Salary</th>
+                            <th class="text-center">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="emp : ${listEmp}">
+                            <td class="text-end" th:text="${emp.id}"></td>
+                            <td class="text-start" th:text="${emp.name}"></td>
+                            <td class="text-start" th:text="${emp.designation}"></td>
+                            <td class="text-end" th:text="${emp.salary}">2</td>
+                            <td><a class="btn btn-danger" role="button" style="background: var(--bs-red);" th:href="@{/emp/delete/{empID}/(empID = ${emp.id})}"><i class="fa fa-trash"></i></a></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <nav>
+                <ul class="pagination">
+                    <li class="page-item"><a class="page-link" href="#" aria-label="Previous"><span aria-hidden="true">«</span></a></li>
+                    <li class="page-item"><a class="page-link" href="#">1</a></li>
+                    <li class="page-item"><a class="page-link" href="#" aria-label="Next"><span aria-hidden="true">»</span></a></li>
+                </ul>
+            </nav>
+        </form>
+    </section>
+    <script src="/assets/bootstrap/js/bootstrap.min.js"></script>
+    <script src="/assets/js/bs-init.js"></script>
 </body>
+
 </html>

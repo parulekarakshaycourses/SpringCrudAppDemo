@@ -8,7 +8,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
@@ -19,7 +18,7 @@ public class EmpController
     EmpRepo empRepo;
 
     @GetMapping("/")
-    public String home()
+    public String homePage()
     {
         return "index";
     }
@@ -27,41 +26,30 @@ public class EmpController
     @GetMapping("/emp/reg/")
     public String empReg(Model model)
     {
-        List<Employee> list = empRepo.findAll();
-        model.addAttribute("empList", list);
-
+        List<Employee> listEmp = empRepo.findAll();
+        model.addAttribute("listEmp", listEmp);
         return "empReg";
     }
 
-//    @PostMapping("/emps/")
-//    public String addEmp(Model model, Employee emp)
-//    {
-//        empRepo.save(emp);
-//        model.addAttribute("msg", "Employee Registration Successfull");
-//        return "empReg";
-//    }
-
-    @PostMapping("/emps/")
-    public String addEmp(Model model, String name, String designation, double salary)
+    @GetMapping("/emp/delete/{empID}/")
+    public String empDelete(Model model, @PathVariable Long empID)
     {
-        Employee emp = new Employee(name, designation, salary);
-        empRepo.save(emp);
 
-        List<Employee> list = empRepo.findAll();
-        model.addAttribute("empList", list);
-        model.addAttribute("msg", "Employee Registration Successfull");
-        return "empReg";
-    }
 
-    @GetMapping("/emps/delete/{empID}/")
-    public String empReg(Model model, @PathVariable long empID)
-    {
+
+
         empRepo.deleteById(empID);
+        List<Employee> listEmp = empRepo.findAll();
+        model.addAttribute("listEmp", listEmp);
+        return "empReg";
+    }
 
-        List<Employee> list = empRepo.findAll();
-        model.addAttribute("empList", list);
-        model.addAttribute("msg", "Employee Deleted Successfull");
-
+    @PostMapping("/emp/save/")
+    public String addEmp(Model model, Employee emp)
+    {
+        empRepo.save(emp);
+        List<Employee> listEmp = empRepo.findAll();
+        model.addAttribute("listEmp", listEmp);
         return "empReg";
     }
 
