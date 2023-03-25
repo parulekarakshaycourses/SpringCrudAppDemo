@@ -1,6 +1,7 @@
 package com.example.SpringCrudAppDemo.Controller;
 
 import com.example.SpringCrudAppDemo.Entity.Employee;
+import com.example.SpringCrudAppDemo.Helper.FileUploader;
 import com.example.SpringCrudAppDemo.Repository.EmpRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -12,6 +13,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -20,6 +22,8 @@ public class EmpController
 {
     @Autowired
     EmpRepo empRepo;
+    @Autowired
+    FileUploader uploader;
 
     @GetMapping("/")
     public String homePage()
@@ -59,9 +63,17 @@ public class EmpController
     }
 
     @PostMapping("/emp/save/")
-    public String addEmp(Model model, Employee emp)
+    public String addEmp(Model model, Employee emp, MultipartFile file)
     {
-        empRepo.save(emp);
+        Employee empNew = empRepo.save(emp);
+
+        String fileNameOld = file.getOriginalFilename();
+        String extension = fileNameOld.substring(fileNameOld.indexOf(".") + 1);
+        String fileNameNew = empNew.getId() + "." + extension;
+
+        System.out.println("Image New Name is " + fileNameNew);
+        uploader.uploadFile(file, fileNameNew);
+
         Pageable pageable = PageRequest.of(0, maxSize, Sort.by("id").descending());
         Page<Employee> page = empRepo.findAll(pageable);
         int totalPages = page.getTotalPages();

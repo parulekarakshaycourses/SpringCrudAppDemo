@@ -46,10 +46,11 @@
                     <h4 class="modal-title">Registration Form</h4><button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <form method="post" action="/emp/save/" th:object="${Employee}">
+                    <form method="post" action="/emp/save/" th:object="${Employee}" enctype="multipart/form-data">
                         <div class="mb-3"><input class="form-control" type="text" name="name" placeholder="Enter Name" required=""></div>
                         <div class="mb-3"><input class="form-control" type="text" name="designation" placeholder="Enter Designation" required=""></div>
                         <div class="mb-3"><input class="form-control" type="number" name="salary" placeholder="Enter Salary" required="" inputmode="numeric"></div>
+                        <div class="mb-3"><input class="form-control" type="file" name="file" required="" accept="image/png"></div>
                         <div class="mb-3"></div>
                         <div class="text-center mb-3"><button class="btn btn-secondary" type="reset">Clear</button><button class="btn btn-primary" type="submit" style="margin-left: 10px;">Save</button></div>
                     </form>
@@ -71,6 +72,7 @@
                             <th class="text-center">Name</th>
                             <th class="text-center">Designation</th>
                             <th class="text-center">Salary</th>
+                            <th class="text-center">Image</th>
                             <th class="text-center">Action</th>
                         </tr>
                     </thead>
@@ -80,6 +82,7 @@
                         <td class="text-start" th:text="${emp.name}"></td>
                         <td class="text-start" th:text="${emp.designation}"></td>
                         <td class="text-end" th:text="${emp.salary}"></td>
+                        <td class="text-end"> <img th:src="@{/assets/img/{fileName}/(fileName = ${emp.id + '.png'})}" height="80px" width="100px"> </td>
                             <td>
                                 <div class="btn-group" role="group"><a th:href="@{/emp/delete/{empID}/(empID = ${emp.id})}" class="btn btn-secondary" role="button" style="background: var(--bs-red);"><i class="fas fa-trash"></i></a></div>
                             </td>
