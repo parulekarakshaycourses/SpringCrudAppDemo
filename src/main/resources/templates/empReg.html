@@ -82,7 +82,7 @@
                         <td class="text-start" th:text="${emp.name}"></td>
                         <td class="text-start" th:text="${emp.designation}"></td>
                         <td class="text-end" th:text="${emp.salary}"></td>
-                        <td class="text-end"> <img th:src="@{/assets/img/{fileName}/(fileName = ${emp.id + '.png'})}" height="80px" width="100px"> </td>
+                        <td class="text-end"> <img th:src="@{/assets/img/{fileName}/(fileName = ${emp.id + '.' + emp.extension})}" height="80px" width="100px"> </td>
                             <td>
                                 <div class="btn-group" role="group"><a th:href="@{/emp/delete/{empID}/(empID = ${emp.id})}" class="btn btn-secondary" role="button" style="background: var(--bs-red);"><i class="fas fa-trash"></i></a></div>
                             </td>

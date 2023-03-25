@@ -41,6 +41,11 @@ public class EmpController
         int totalPages = page.getTotalPages();
         List<Employee> listEmp = page.toList();
 
+        if(totalPages < 1)
+        {
+            totalPages = 1;
+        }
+
         model.addAttribute("listEmp", listEmp);
         model.addAttribute("totalPages", totalPages);
         model.addAttribute("curPage", curPage);
@@ -56,6 +61,11 @@ public class EmpController
         int totalPages = page.getTotalPages();
         List<Employee> listEmp = page.toList();
 
+        if(totalPages < 1)
+        {
+            totalPages = 1;
+        }
+
         model.addAttribute("listEmp", listEmp);
         model.addAttribute("totalPages", totalPages);
         model.addAttribute("curPage", 1);
@@ -65,10 +75,11 @@ public class EmpController
     @PostMapping("/emp/save/")
     public String addEmp(Model model, Employee emp, MultipartFile file)
     {
-        Employee empNew = empRepo.save(emp);
-
         String fileNameOld = file.getOriginalFilename();
         String extension = fileNameOld.substring(fileNameOld.indexOf(".") + 1);
+        emp.setExtension(extension);
+
+        Employee empNew = empRepo.save(emp);
         String fileNameNew = empNew.getId() + "." + extension;
 
         System.out.println("Image New Name is " + fileNameNew);
@@ -78,6 +89,11 @@ public class EmpController
         Page<Employee> page = empRepo.findAll(pageable);
         int totalPages = page.getTotalPages();
         List<Employee> listEmp = page.toList();
+
+        if(totalPages < 1)
+        {
+            totalPages = 1;
+        }
 
         model.addAttribute("listEmp", listEmp);
         model.addAttribute("totalPages", totalPages);

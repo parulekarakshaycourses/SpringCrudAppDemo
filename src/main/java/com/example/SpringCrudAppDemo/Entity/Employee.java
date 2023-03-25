@@ -12,14 +12,16 @@ public class Employee
     String name;
     String designation;
     double salary;
+    String extension;
 
-    public Employee(String name, String designation, double salary) {
+    public Employee() {
+    }
+
+    public Employee(String name, String designation, double salary, String extension) {
         this.name = name;
         this.designation = designation;
         this.salary = salary;
-    }
-
-    public Employee() {
+        this.extension = extension;
     }
 
     public long getId() {
@@ -54,6 +56,14 @@ public class Employee
         this.salary = salary;
     }
 
+    public String getExtension() {
+        return extension;
+    }
+
+    public void setExtension(String extension) {
+        this.extension = extension;
+    }
+
     @Override
     public String toString() {
         return "Employee{" +
@@ -61,6 +71,7 @@ public class Employee
                 ", name='" + name + '\'' +
                 ", designation='" + designation + '\'' +
                 ", salary=" + salary +
+                ", extension='" + extension + '\'' +
                 '}';
     }
 }
