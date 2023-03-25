@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="/assets/fonts/fontawesome5-overrides.min.css">
     <link rel="stylesheet" href="/assets/css/Contact-Form-Clean.css">
     <link rel="stylesheet" href="/assets/css/Login-Form-Clean.css">
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 
     <script>
         function filterTbl(input) {
@@ -38,6 +39,15 @@
 </head>
 
 <body>
+    <script th:inline="javascript">
+        var msg = [[${msg}]]
+
+        if(msg != null)
+        {
+            swal("Employee Registration", msg, "success");
+        }
+    </script>
+
     <div th:replace="fragments.html :: navBar"></div>
     <div class="modal fade" role="dialog" tabindex="-1" id="regFormModal">
         <div class="modal-dialog" role="document">
@@ -82,7 +92,7 @@
                         <td class="text-start" th:text="${emp.name}"></td>
                         <td class="text-start" th:text="${emp.designation}"></td>
                         <td class="text-end" th:text="${emp.salary}"></td>
-                        <td class="text-end"> <img th:src="@{/assets/img/{fileName}/(fileName = ${emp.id + '.' + emp.extension})}" height="80px" width="100px"> </td>
+                        <td class="text-center"> <img th:src="@{/assets/img/{fileName}/(fileName = ${emp.id + '.' + emp.extension})}" height="80px" width="100px"> </td>
                             <td>
                                 <div class="btn-group" role="group"><a th:href="@{/emp/delete/{empID}/(empID = ${emp.id})}" class="btn btn-secondary" role="button" style="background: var(--bs-red);"><i class="fas fa-trash"></i></a></div>
                             </td>

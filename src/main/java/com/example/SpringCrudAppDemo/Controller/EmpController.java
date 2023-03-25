@@ -69,6 +69,8 @@ public class EmpController
         model.addAttribute("listEmp", listEmp);
         model.addAttribute("totalPages", totalPages);
         model.addAttribute("curPage", 1);
+        model.addAttribute("msg", "Record deleted successfully");
+
         return "empReg";
     }
 
@@ -98,6 +100,7 @@ public class EmpController
         model.addAttribute("listEmp", listEmp);
         model.addAttribute("totalPages", totalPages);
         model.addAttribute("curPage", 1);
+        model.addAttribute("msg", "Employee Registration Successful");
         return "empReg";
     }
 
