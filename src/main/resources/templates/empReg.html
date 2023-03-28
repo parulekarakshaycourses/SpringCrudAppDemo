@@ -87,7 +87,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                    <tr th:each="emp : ${listEmp}">
+                    <tr th:each="emp : ${listEmp}" th:classappend="${emp.salary < 50000} ? 'table-danger text-danger' : (${emp.salary > 50000} ? 'table-success text-success' : 'table-warning text-warning')">
                         <td class="text-end" th:text="${emp.id}"></td>
                         <td class="text-start" th:text="${emp.name}"></td>
                         <td class="text-start" th:text="${emp.designation}"></td>
