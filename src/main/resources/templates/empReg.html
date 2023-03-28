@@ -58,7 +58,17 @@
                 <div class="modal-body">
                     <form method="post" action="/emp/save/" th:object="${Employee}" enctype="multipart/form-data">
                         <div class="mb-3"><input class="form-control" type="text" name="name" placeholder="Enter Name" required=""></div>
-                        <div class="mb-3"><input class="form-control" type="text" name="designation" placeholder="Enter Designation" required=""></div>
+                        <div class="mb-3">
+
+                            <select name="designation" class="form-control">
+                                <option disabled selected>Select Designation</option>
+                                <option value="Owner">Owner</option>
+                                <option value="Analyst">Analyst</option>
+                                <option value="Tester">Tester</option>
+                                <option value="Manager">Manager</option>
+                            </select>
+
+                        </div>
                         <div class="mb-3"><input class="form-control" type="number" name="salary" placeholder="Enter Salary" required="" inputmode="numeric"></div>
                         <div class="mb-3"><input class="form-control" type="file" name="file" required="" accept="image/png"></div>
                         <div class="mb-3"></div>
@@ -87,7 +97,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                    <tr th:each="emp : ${listEmp}" th:classappend="${emp.salary < 50000} ? 'table-danger text-danger' : (${emp.salary > 50000} ? 'table-success text-success' : 'table-warning text-warning')">
+                    <tr th:each="emp : ${listEmp}" th:classappend="${emp.salary < 50000} ? 'table-danger text-danger' :(${emp.salary > 50000} ? 'table-success text-success' : 'table-warning text-warning')" style="font-weight: bold">
                         <td class="text-end" th:text="${emp.id}"></td>
                         <td class="text-start" th:text="${emp.name}"></td>
                         <td class="text-start" th:text="${emp.designation}"></td>
