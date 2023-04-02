@@ -6,49 +6,112 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
     <title>EmploeeMS</title>
     <link rel="stylesheet" href="/assets/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/assets/fonts/fontawesome-all.min.css">
     <link rel="stylesheet" href="/assets/fonts/font-awesome.min.css">
+    <link rel="stylesheet" href="/assets/fonts/fontawesome5-overrides.min.css">
     <link rel="stylesheet" href="/assets/css/Contact-Form-Clean.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
-    <link rel="stylesheet" href="/assets/css/styles.css">
+    <link rel="stylesheet" href="/assets/css/Login-Form-Clean.css">
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <script src="/assets/js/registration.js"></script>
+
+    <script>
+        function filterTbl(input) {
+		  var input, filter, table, tr, td, cell, i, j;
+		  input = document.getElementById("tSearch");
+		  filter = input.value.toUpperCase();
+		  table = document.getElementById("tbl");
+		  tr = table.getElementsByTagName("tr");
+		  for (i = 1; i < tr.length; i++) {
+		    // Hide the row initially.
+		    tr[i].style.display = "none";
+
+		    td = tr[i].getElementsByTagName("td");
+		    for (var j = 0; j < td.length; j++) {
+		      cell = tr[i].getElementsByTagName("td")[j];
+		      if (cell) {
+		        if (cell.innerHTML.toUpperCase().indexOf(filter) > -1) {
+		          tr[i].style.display = "";
+		          break;
+		        }
+		      }
+		    }
+		  }
+		}
+    </script>
 </head>
 
 <body>
+    <script th:inline="javascript">
+        var status = [[ ${status} ]];
+        console.log('status = ' + status);
+
+        if(status == 0)
+        {
+            swal("Sorry!", "Some problem occured. Please try again later", "error");
+        }
+        else if(status == 1)
+        {
+            swal("Successfull!", "Employee has been registered successfully!", "success");
+        }
+        else  if(status == 2)
+        {
+            swal("Deleted!", "Employee data has been deleted successfully!", "success");
+        }
+    </script>
+
+    <div class="modal fade" role="dialog" tabindex="-1" id="regFormModal">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Registration Form</h4><button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="regForm">
+                        <div class="mb-3"><input id="name" class="form-control" type="text" name="name" placeholder="Enter Name" required=""></div>
+                        <div class="mb-3"><input id="designation" class="form-control" type="text" name="designation" placeholder="Enter Designation" required=""></div>
+                        <div class="mb-3"><input id="salary" class="form-control" type="number" name="salary" placeholder="Enter Salary" required="" inputmode="numeric"></div>
+                        <div class="mb-3"></div>
+                        <div class="text-center mb-3"><button class="btn btn-secondary" type="reset">Clear</button><button id="btnRegister" class="btn btn-primary" type="submit" style="margin-left: 10px;">Save</button></div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
     <section class="contact-clean">
-        <form method="post" action="/emp/save/" th:object="${Employee}">
-            <h2 class="text-center">Employee Registration Form</h2>
-            <div class="mb-3"><input class="form-control" type="text" name="name" placeholder="Enter Name" required=""></div>
-            <div class="mb-3"><input class="form-control" type="text" name="designation" placeholder="Enter Designation" required=""></div>
-            <div class="mb-3"><input class="form-control" type="text" name="salary" placeholder="Enter Salary" required="" inputmode="numeric"></div>
-            <div class="text-center mb-3"><button class="btn btn-secondary" type="submit" style="background: var(--bs-blue);margin: 5px;">Register</button><button class="btn btn-secondary" type="reset" style="background: var(--bs-gray-500);margin: 5px;">CLEAR</button></div>
-
-
+        <form method="post" action="/emp/save/" style="max-width: 1000px;min-width: 400px;">
+            <div class="row">
+                <div class="col" style="max-width: 150px;"><button class="btn" type="button" style="margin-bottom: 10px;background: var(--bs-success);color: var(--bs-white);" data-bs-target="#regFormModal" data-bs-toggle="modal"><i class="fa fa-plus"></i>&nbsp;new</button></div>
+                <div class="col"><input id="tSearch" onkeyup="filterTbl()" class="form-control" type="search" placeholder="Search by Keyword"></div>
+            </div>
             <div class="table-responsive" style="width: 100%;">
-                <table class="table">
+                <table id="tbl" class="table">
                     <thead>
-                        <tr style="background: var(--bs-blue);color: var(--bs-white);">
-                            <th class="text-center">ID</th>
-                            <th class="text-center">Name</th>
-                            <th class="text-center">Designation</th>
-                            <th class="text-center">Salary</th>
-                            <th class="text-center">Action</th>
-                        </tr>
+                    <tr style="background: var(--bs-blue);color: var(--bs-white);">
+                        <th class="text-center">ID</th>
+                        <th class="text-center">Name</th>
+                        <th class="text-center">Designation</th>
+                        <th class="text-center">Salary</th>
+                        <th class="text-center">Action</th>
+                    </tr>
                     </thead>
                     <tbody>
-                        <tr th:each="emp : ${listEmp}">
-                            <td class="text-end" th:text="${emp.id}"></td>
-                            <td class="text-start" th:text="${emp.name}"></td>
-                            <td class="text-start" th:text="${emp.designation}"></td>
-                            <td class="text-end" th:text="${emp.salary}">2</td>
-                            <td><a class="btn btn-danger" role="button" style="background: var(--bs-red);" th:href="@{/emp/delete/{empID}/(empID = ${emp.id})}"><i class="fa fa-trash"></i></a></td>
-                        </tr>
+                    <tr th:each="emp : ${listEmp}">
+                        <td class="text-end" th:text="${emp.id}"></td>
+                        <td class="text-start" th:text="${emp.name}"></td>
+                        <td class="text-start" th:text="${emp.designation}"></td>
+                        <td class="text-end" th:text="${emp.salary}">2</td>
+                        <td><a class="btn btn-danger" role="button" style="background: var(--bs-red);" th:href="@{/emp/delete/{empID}/(empID = ${emp.id})}"><i class="fa fa-trash"></i></a></td>
+                    </tr>
                     </tbody>
                 </table>
             </div>
             <nav>
                 <ul class="pagination">
-                    <li class="page-item"><a class="page-link" href="#" aria-label="Previous"><span aria-hidden="true">«</span></a></li>
+                    <li class="page-item"><a class="page-link" aria-label="Previous" href="#"><span aria-hidden="true">«</span></a></li>
                     <li class="page-item"><a class="page-link" href="#">1</a></li>
-                    <li class="page-item"><a class="page-link" href="#" aria-label="Next"><span aria-hidden="true">»</span></a></li>
+                    <li class="page-item"><a class="page-link" aria-label="Next" href="#"><span aria-hidden="true">»</span></a></li>
                 </ul>
             </nav>
         </form>

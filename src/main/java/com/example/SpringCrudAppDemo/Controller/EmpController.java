@@ -5,9 +5,7 @@ import com.example.SpringCrudAppDemo.Repository.EmpRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -34,23 +32,26 @@ public class EmpController
     @GetMapping("/emp/delete/{empID}/")
     public String empDelete(Model model, @PathVariable Long empID)
     {
+        try
+        {
+            empRepo.deleteById(empID);
+            model.addAttribute("status", 2);
+        }
+        catch(Exception ex)
+        {
+            model.addAttribute("status", 0);
+        }
 
-
-
-
-        empRepo.deleteById(empID);
         List<Employee> listEmp = empRepo.findAll();
         model.addAttribute("listEmp", listEmp);
         return "empReg";
     }
 
     @PostMapping("/emp/save/")
-    public String addEmp(Model model, Employee emp)
+    @ResponseBody
+    public Employee addEmp(Model model, @RequestBody Employee emp)
     {
-        empRepo.save(emp);
-        List<Employee> listEmp = empRepo.findAll();
-        model.addAttribute("listEmp", listEmp);
-        return "empReg";
+        Employee empNew = empRepo.save(emp);
+        return empNew;
     }
-
 }
